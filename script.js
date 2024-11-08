@@ -11,16 +11,15 @@ let balloon = {
   isBurst: false,
 };
 
-let balloonColor = '#FF0000';  // Red color for the balloon
+let balloonColor = '#FF0000'; 
 const pumpButton = document.getElementById('pumpButton');
-let pumpCount = 0;  // Counts number of pumps
+let pumpCount = 0;  
 
-// Inflate the balloon
 pumpButton.addEventListener('click', () => {
   if (!balloon.isFlying && !balloon.isBurst) {
     pumpCount++;
-    balloon.radius += 5;  // Increase balloon size
-    if (pumpCount >= 5) {  // Balloon flies after 6 pumps
+    balloon.radius += 5; 
+    if (pumpCount >= 5) {  
       balloon.isFlying = true;
       pumpCount = 0;
       startFlying();
@@ -29,7 +28,6 @@ pumpButton.addEventListener('click', () => {
   drawBalloon();
 });
 
-// Make the balloon fly randomly
 function startFlying() {
   let dx = (Math.random() * 2 - 1) * 2;
   let dy = -2;
@@ -38,11 +36,9 @@ function startFlying() {
     if (!balloon.isBurst) {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // Update position
       balloon.x += dx;
       balloon.y += dy;
 
-      // Bounce from edges
       if (balloon.x - balloon.radius < 0 || balloon.x + balloon.radius > canvas.width) {
         dx *= -1;
       }
@@ -57,7 +53,6 @@ function startFlying() {
   animate();
 }
 
-// Draw the balloon
 function drawBalloon() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   if (!balloon.isBurst) {
@@ -69,7 +64,6 @@ function drawBalloon() {
   }
 }
 
-// Burst the balloon on tap
 canvas.addEventListener('click', (e) => {
   const rect = canvas.getBoundingClientRect();
   const mouseX = e.clientX - rect.left;
@@ -79,17 +73,16 @@ canvas.addEventListener('click', (e) => {
 
   if (distance < balloon.radius && !balloon.isBurst && balloon.isFlying) {
     balloon.isBurst = true;
-    balloonColor = '#FFFFFF';  // Change color to "burst"
+    balloonColor = '#FFFFFF'; 
     drawBalloon();
     setTimeout(() => resetGame(), 1000);
   }
 });
 
-// Reset game after burst
 function resetGame() {
   balloon = { x: canvas.width / 2, y: canvas.height - 50, radius: 20, isFlying: false, isBurst: false };
   balloonColor = '#FF0000';
   drawBalloon();
 }
 
-drawBalloon();  // Initial draw
+drawBalloon(); 
